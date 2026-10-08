@@ -1,0 +1,1573 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ambassador Ticket & Commission Tracker</title>
+  <style>
+    :root {
+      --bg-gradient: linear-gradient(135deg, #0d0f1a 0%, #171b30 50%, #0d1124 100%);
+      --card-bg: rgba(26, 32, 58, 0.75);
+      --card-border: rgba(139, 92, 246, 0.25);
+      --card-hover-border: rgba(168, 85, 247, 0.55);
+      --primary-neon: #a855f7;
+      --primary-neon-bright: #c084fc;
+      --accent-cyan: #06b6d4;
+      --accent-emerald: #10b981;
+      --accent-amber: #f59e0b;
+      --accent-rose: #f43f5e;
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --text-dim: #64748b;
+      --input-bg: #11162b;
+      --btn-quick-bg: rgba(255, 255, 255, 0.08);
+      --btn-quick-hover: rgba(168, 85, 247, 0.25);
+      --shadow-glow: 0 8px 32px 0 rgba(0, 0, 0, 0.45);
+      --transition: all 0.22s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      background: var(--bg-gradient);
+      background-attachment: fixed;
+      color: var(--text-main);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 1.5rem 1rem 3rem 1rem;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 1040px;
+      display: flex;
+      flex-direction: column;
+      gap: 1.75rem;
+    }
+
+    /* Header styling */
+    header {
+      text-align: center;
+      padding: 1.5rem 1rem 0.5rem 1rem;
+    }
+
+    .badge-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      background: rgba(168, 85, 247, 0.16);
+      border: 1px solid rgba(168, 85, 247, 0.4);
+      color: var(--primary-neon-bright);
+      padding: 0.35rem 0.85rem;
+      border-radius: 9999px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      margin-bottom: 0.75rem;
+    }
+
+    h1 {
+      font-size: clamp(1.75rem, 4vw, 2.5rem);
+      font-weight: 800;
+      line-height: 1.2;
+      background: linear-gradient(120deg, #ffffff 30%, #c084fc 80%, #06b6d4 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 0.6rem;
+    }
+
+    .subtitle {
+      font-size: clamp(0.95rem, 2vw, 1.1rem);
+      color: var(--text-muted);
+      max-width: 720px;
+      margin: 0 auto;
+      line-height: 1.5;
+    }
+
+    /* Live Summary Dashboard */
+    .summary-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1rem;
+    }
+
+    @media (min-width: 768px) {
+      .summary-grid {
+        grid-template-columns: repeat(4, 1fr);
+      }
+    }
+
+    .stat-card {
+      background: var(--card-bg);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border: 1px solid var(--card-border);
+      border-radius: 16px;
+      padding: 1.25rem 1rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+      box-shadow: var(--shadow-glow);
+      transition: var(--transition);
+    }
+
+    .stat-card:hover {
+      border-color: var(--card-hover-border);
+      transform: translateY(-2px);
+    }
+
+    .stat-card.featured {
+      background: linear-gradient(135deg, rgba(88, 28, 135, 0.65) 0%, rgba(30, 27, 75, 0.85) 100%);
+      border: 1px solid rgba(192, 132, 252, 0.5);
+      box-shadow: 0 0 25px rgba(168, 85, 247, 0.35);
+    }
+
+    .stat-label {
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 0.4rem;
+    }
+
+    .stat-value {
+      font-size: clamp(1.4rem, 2.5vw, 1.85rem);
+      font-weight: 800;
+      color: var(--text-main);
+      display: flex;
+      align-items: baseline;
+      gap: 0.15rem;
+    }
+
+    .stat-card.featured .stat-value {
+      color: #38bdf8;
+      text-shadow: 0 0 16px rgba(56, 189, 248, 0.4);
+    }
+
+    .stat-subtext {
+      font-size: 0.76rem;
+      color: var(--text-dim);
+      margin-top: 0.3rem;
+    }
+
+    /* Milestone Bonus Bar */
+    .milestone-box {
+      background: var(--card-bg);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border: 1px solid var(--card-border);
+      border-radius: 16px;
+      padding: 1.25rem 1.5rem;
+      box-shadow: var(--shadow-glow);
+    }
+
+    .milestone-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .milestone-title {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--text-main);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .milestone-badge {
+      background: rgba(16, 185, 129, 0.18);
+      border: 1px solid rgba(16, 185, 129, 0.4);
+      color: #34d399;
+      padding: 0.2rem 0.65rem;
+      border-radius: 9999px;
+      font-size: 0.8rem;
+      font-weight: 700;
+    }
+
+    .progress-track {
+      background: rgba(255, 255, 255, 0.07);
+      border-radius: 9999px;
+      height: 12px;
+      overflow: hidden;
+      position: relative;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .progress-fill {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, #a855f7, #06b6d4, #10b981);
+      border-radius: 9999px;
+      transition: width 0.35s ease-out;
+      box-shadow: 0 0 12px rgba(6, 182, 212, 0.6);
+    }
+
+    .milestone-info {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 0.5rem;
+      font-size: 0.82rem;
+      color: var(--text-muted);
+    }
+
+    /* Festival Cards Grid */
+    .festivals-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1.25rem;
+    }
+
+    @media (min-width: 640px) {
+      .festivals-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    .festival-card {
+      background: var(--card-bg);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border: 1px solid var(--card-border);
+      border-radius: 18px;
+      padding: 1.35rem;
+      box-shadow: var(--shadow-glow);
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      position: relative;
+      transition: var(--transition);
+    }
+
+    .festival-card:focus-within,
+    .festival-card:hover {
+      border-color: var(--card-hover-border);
+      transform: translateY(-2px);
+    }
+
+    .fest-header {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .fest-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.35rem;
+      flex-shrink: 0;
+      cursor: pointer;
+      border: 1.5px solid rgba(255, 255, 255, 0.15);
+      position: relative;
+      background: rgba(255, 255, 255, 0.05);
+      transition: var(--transition);
+      touch-action: manipulation;
+    }
+
+    .fest-icon:hover {
+      transform: scale(1.08);
+      border-color: var(--primary-neon-bright);
+      box-shadow: 0 0 14px rgba(168, 85, 247, 0.45);
+    }
+
+    .icon-edit-badge {
+      position: absolute;
+      bottom: -3px;
+      right: -3px;
+      background: #7c3aed;
+      color: #ffffff;
+      font-size: 0.65rem;
+      width: 17px;
+      height: 17px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 1.5px solid #11162b;
+      opacity: 0.95;
+    }
+
+    .fest-title-area {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .fest-name-input {
+      background: transparent;
+      border: 1px solid transparent;
+      color: var(--text-main);
+      font-size: 1.05rem;
+      font-weight: 700;
+      width: 100%;
+      border-radius: 6px;
+      padding: 0.15rem 0.35rem;
+      transition: var(--transition);
+    }
+
+    .fest-name-input:hover {
+      border-color: rgba(255, 255, 255, 0.15);
+      background: rgba(255, 255, 255, 0.04);
+    }
+
+    .fest-name-input:focus {
+      outline: none;
+      border-color: var(--primary-neon);
+      background: rgba(168, 85, 247, 0.1);
+    }
+
+    .fest-location-input {
+      background: transparent;
+      border: 1px solid transparent;
+      color: var(--text-muted);
+      font-size: 0.82rem;
+      width: 100%;
+      border-radius: 6px;
+      padding: 0.15rem 0.35rem;
+      transition: var(--transition);
+    }
+
+    .fest-location-input:hover {
+      border-color: rgba(255, 255, 255, 0.15);
+      background: rgba(255, 255, 255, 0.04);
+    }
+
+    .fest-location-input:focus {
+      outline: none;
+      border-color: var(--accent-cyan);
+      background: rgba(6, 182, 212, 0.1);
+      color: var(--text-main);
+    }
+
+    /* Festival Inputs & Quick Buttons */
+    .input-row {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .number-stepper {
+      display: flex;
+      align-items: stretch;
+      flex: 1;
+      background: var(--input-bg);
+      border: 1.5px solid rgba(255, 255, 255, 0.15);
+      border-radius: 12px;
+      overflow: hidden;
+      transition: var(--transition);
+    }
+
+    .number-stepper:focus-within {
+      border-color: var(--primary-neon-bright);
+      box-shadow: 0 0 0 3px rgba(168, 85, 247, 0.25);
+    }
+
+    .stepper-btn {
+      background: rgba(255, 255, 255, 0.05);
+      border: none;
+      color: var(--text-main);
+      width: 48px;
+      min-height: 48px;
+      font-size: 1.25rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: var(--transition);
+      touch-action: manipulation;
+    }
+
+    .stepper-btn:hover {
+      background: rgba(168, 85, 247, 0.3);
+      color: #fff;
+    }
+
+    .stepper-btn:active {
+      transform: scale(0.92);
+    }
+
+    .ticket-input {
+      flex: 1;
+      width: 100%;
+      min-width: 0;
+      background: transparent;
+      border: none;
+      color: #fff;
+      font-size: 1.25rem;
+      font-weight: 700;
+      text-align: center;
+      padding: 0.5rem 0.25rem;
+      -moz-appearance: textfield;
+    }
+
+    .ticket-input::-webkit-outer-spin-button,
+    .ticket-input::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+
+    .ticket-input:focus {
+      outline: none;
+    }
+
+    /* Quick Increment Buttons */
+    .quick-buttons {
+      display: flex;
+      gap: 0.4rem;
+      flex-wrap: wrap;
+    }
+
+    .btn-quick {
+      flex: 1;
+      min-height: 38px;
+      background: var(--btn-quick-bg);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 8px;
+      color: var(--text-main);
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      touch-action: manipulation;
+    }
+
+    .btn-quick:hover {
+      background: var(--btn-quick-hover);
+      border-color: var(--primary-neon);
+      color: #fff;
+    }
+
+    .btn-quick:active {
+      transform: scale(0.95);
+    }
+
+    .btn-quick.btn-clear {
+      flex: 0 0 auto;
+      padding: 0 0.75rem;
+      color: var(--text-dim);
+    }
+
+    .btn-quick.btn-clear:hover {
+      background: rgba(244, 63, 94, 0.2);
+      border-color: var(--accent-rose);
+      color: var(--accent-rose);
+    }
+
+    /* Festival Footer (Subtotal & Error) */
+    .fest-subtotal {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.88rem;
+      padding-top: 0.35rem;
+      border-top: 1px solid rgba(255, 255, 255, 0.07);
+    }
+
+    .fest-subtotal-val {
+      font-weight: 700;
+      color: var(--accent-cyan);
+    }
+
+    .card-error-msg {
+      display: none;
+      font-size: 0.8rem;
+      color: #fb7185;
+      background: rgba(244, 63, 94, 0.14);
+      border-left: 3px solid #fb7185;
+      padding: 0.5rem 0.65rem;
+      border-radius: 6px;
+      line-height: 1.35;
+      animation: fadeIn 0.2s ease-in;
+    }
+
+    .card-error-msg.visible {
+      display: block;
+    }
+
+    /* Global Notification / Error Toast */
+    .toast-container {
+      position: fixed;
+      bottom: 1.5rem;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 1000;
+      width: calc(100% - 2rem);
+      max-width: 480px;
+      pointer-events: none;
+    }
+
+    .toast {
+      background: #1e1b4b;
+      border: 1px solid var(--primary-neon);
+      color: var(--text-main);
+      padding: 0.9rem 1.2rem;
+      border-radius: 12px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      font-size: 0.9rem;
+      pointer-events: auto;
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .toast-icon {
+      font-size: 1.3rem;
+      flex-shrink: 0;
+    }
+
+    /* Bottom Action Controls */
+    .actions-bar {
+      display: flex;
+      justify-content: center;
+      gap: 0.85rem;
+      flex-wrap: wrap;
+      margin-top: 0.5rem;
+    }
+
+    .btn-action {
+      min-height: 44px;
+      padding: 0.65rem 1.4rem;
+      border-radius: 10px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: var(--transition);
+      border: none;
+      touch-action: manipulation;
+    }
+
+    .btn-action-primary {
+      background: linear-gradient(135deg, #a855f7, #7c3aed);
+      color: #ffffff;
+      box-shadow: 0 4px 15px rgba(168, 85, 247, 0.4);
+    }
+
+    .btn-action-primary:hover {
+      background: linear-gradient(135deg, #b96bfa, #8b5cf6);
+      transform: translateY(-1px);
+    }
+
+    .btn-action-secondary {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      color: var(--text-muted);
+    }
+
+    .btn-action-secondary:hover {
+      background: rgba(255, 255, 255, 0.14);
+      color: var(--text-main);
+    }
+
+    /* Rules reference card */
+    .rules-card {
+      background: rgba(15, 23, 42, 0.65);
+      border: 1px dashed rgba(255, 255, 255, 0.15);
+      border-radius: 14px;
+      padding: 1.15rem 1.35rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      font-size: 0.88rem;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+
+    .rules-card strong {
+      color: var(--text-main);
+    }
+
+    .rules-pills {
+      display: flex;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+      margin-top: 0.25rem;
+    }
+
+    .pill-info {
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      padding: 0.25rem 0.65rem;
+      border-radius: 6px;
+      font-size: 0.8rem;
+    }
+
+    /* Modal for Reset Confirmation */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(5, 7, 15, 0.8);
+      backdrop-filter: blur(5px);
+      -webkit-backdrop-filter: blur(5px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 2000;
+      padding: 1rem;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s ease;
+    }
+
+    .modal-overlay.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .modal-card {
+      background: #181d33;
+      border: 1px solid var(--card-border);
+      border-radius: 18px;
+      padding: 1.75rem;
+      max-width: 420px;
+      width: 100%;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
+      text-align: center;
+      transform: scale(0.95);
+      transition: transform 0.2s ease;
+    }
+
+    .modal-overlay.active .modal-card {
+      transform: scale(1);
+    }
+
+    .modal-title {
+      font-size: 1.25rem;
+      font-weight: 700;
+      margin-bottom: 0.6rem;
+      color: var(--text-main);
+    }
+
+    .modal-desc {
+      font-size: 0.92rem;
+      color: var(--text-muted);
+      margin-bottom: 1.5rem;
+      line-height: 1.45;
+    }
+
+    .modal-actions {
+      display: flex;
+      gap: 0.75rem;
+      justify-content: center;
+    }
+
+    .btn-danger {
+      background: #e11d48;
+      color: white;
+    }
+
+    .btn-danger:hover {
+      background: #f43f5e;
+    }
+
+    /* Icon Picker Modal */
+    .icon-picker-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(5, 7, 15, 0.78);
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 2500;
+      padding: 1rem;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s ease;
+    }
+
+    .icon-picker-overlay.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .icon-picker-card {
+      background: #181d33;
+      border: 1px solid var(--card-hover-border);
+      border-radius: 18px;
+      padding: 1.5rem;
+      max-width: 380px;
+      width: 100%;
+      box-shadow: 0 20px 45px rgba(0, 0, 0, 0.7);
+      transform: scale(0.95);
+      transition: transform 0.2s ease;
+      display: flex;
+      flex-direction: column;
+      gap: 1.15rem;
+    }
+
+    .icon-picker-overlay.active .icon-picker-card {
+      transform: scale(1);
+    }
+
+    .icon-picker-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .icon-picker-title {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--text-main);
+    }
+
+    .btn-close-picker {
+      background: rgba(255, 255, 255, 0.08);
+      border: none;
+      color: var(--text-muted);
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      font-size: 1rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: var(--transition);
+    }
+
+    .btn-close-picker:hover {
+      background: rgba(244, 63, 94, 0.2);
+      color: var(--accent-rose);
+    }
+
+    .emoji-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 0.5rem;
+    }
+
+    .emoji-option {
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 12px;
+      height: 48px;
+      font-size: 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: var(--transition);
+      touch-action: manipulation;
+    }
+
+    .emoji-option:hover {
+      background: rgba(168, 85, 247, 0.25);
+      border-color: var(--primary-neon-bright);
+      transform: scale(1.12);
+    }
+
+    .emoji-option:active {
+      transform: scale(0.95);
+    }
+
+    .custom-emoji-section {
+      display: flex;
+      gap: 0.5rem;
+      align-items: center;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      padding-top: 0.85rem;
+    }
+
+    .custom-emoji-input {
+      flex: 1;
+      background: var(--input-bg);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 10px;
+      color: var(--text-main);
+      padding: 0.6rem 0.85rem;
+      font-size: 0.95rem;
+      outline: none;
+      transition: var(--transition);
+    }
+
+    .custom-emoji-input:focus {
+      border-color: var(--primary-neon-bright);
+    }
+
+    .btn-apply-custom {
+      background: linear-gradient(135deg, #a855f7, #7c3aed);
+      border: none;
+      color: white;
+      padding: 0.6rem 1.1rem;
+      border-radius: 10px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+      touch-action: manipulation;
+    }
+
+    .btn-apply-custom:hover {
+      background: linear-gradient(135deg, #b96bfa, #8b5cf6);
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-4px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <!-- Header -->
+    <header>
+      <div class="badge-tag">
+        <span>⚡ Music Ambassador Portal</span>
+      </div>
+      <h1>Ambassador Ticket &amp; Commission Tracker</h1>
+      <p class="subtitle">
+        Easily track your ticket sales across all four music festivals and calculate your commissions and milestone bonuses in real time.
+      </p>
+    </header>
+
+    <!-- Summary Dashboard -->
+    <section class="summary-grid" aria-label="Sales and Commission Summary">
+      <div class="stat-card">
+        <span class="stat-label">Total Tickets Sold</span>
+        <div class="stat-value" id="totalTicketsDisplay">0</div>
+        <span class="stat-subtext" id="totalBreakdownSubtext">Across 4 festivals</span>
+      </div>
+
+      <div class="stat-card">
+        <span class="stat-label">Base Commission</span>
+        <div class="stat-value" id="baseCommissionDisplay">$0</div>
+        <span class="stat-subtext">$5 per ticket</span>
+      </div>
+
+      <div class="stat-card">
+        <span class="stat-label">Milestone Bonuses</span>
+        <div class="stat-value" id="bonusDisplay">$0</div>
+        <span class="stat-subtext" id="bonusTierCount">0 unlocked ($150 / 50 sold)</span>
+      </div>
+
+      <div class="stat-card featured">
+        <span class="stat-label" style="color: #cbd5e1;">Total Earnings</span>
+        <div class="stat-value" id="totalPayoutDisplay">$0</div>
+        <span class="stat-subtext" style="color: #93c5fd;">Base + All Bonuses</span>
+      </div>
+    </section>
+
+    <!-- Milestone Progress Tracker -->
+    <section class="milestone-box" aria-label="Bonus Milestone Tracker">
+      <div class="milestone-header">
+        <div class="milestone-title">
+          <span>🎯 Next $150 Milestone Progress</span>
+          <span class="milestone-badge" id="milestonesEarnedBadge">0 Bonuses Earned</span>
+        </div>
+        <span id="milestoneTargetText" style="font-size: 0.85rem; color: var(--accent-cyan); font-weight: 600;">
+          50 tickets until your next bonus
+        </span>
+      </div>
+
+      <div class="progress-track" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="50" id="progressBarRole">
+        <div class="progress-fill" id="progressFill" style="width: 0%;"></div>
+      </div>
+
+      <div class="milestone-info">
+        <span id="currentBatchProgress">0 / 50 tickets towards next bonus</span>
+        <span id="nextBonusReward">Reward: +$150.00</span>
+      </div>
+    </section>
+
+    <!-- 4 Festival Cards Grid -->
+    <section class="festivals-grid" id="festivalsGrid" aria-label="Festivals List">
+      <!-- Populated dynamically by JavaScript -->
+    </section>
+
+    <!-- Commission Rate Reference Guide -->
+    <section class="rules-card">
+      <div><strong>Commission Structure Guide:</strong></div>
+      <div class="rules-pills">
+        <div class="pill-info">🎟️ <strong>$5.00</strong> commission for every ticket sold</div>
+        <div class="pill-info">🎁 <strong>$150.00 bonus</strong> for every 50 tickets reached (50, 100, 150, ...)</div>
+        <div class="pill-info">💾 Automatic instant saving to your device</div>
+      </div>
+    </section>
+
+    <!-- Actions Bar -->
+    <div class="actions-bar">
+      <button type="button" class="btn-action btn-action-primary" id="btnCopyReport">
+        📋 Copy Sales Report
+      </button>
+      <button type="button" class="btn-action btn-action-secondary" id="btnPromptReset">
+        🔄 Reset All Data
+      </button>
+    </div>
+  </div>
+
+  <!-- Notification Toast -->
+  <div class="toast-container" aria-live="polite">
+    <div class="toast" id="toastMessage">
+      <span class="toast-icon" id="toastIcon">✨</span>
+      <span id="toastText">Update successful</span>
+    </div>
+  </div>
+
+  <!-- Reset Confirmation Modal -->
+  <div class="modal-overlay" id="confirmModal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <div class="modal-card">
+      <div style="font-size: 2.2rem; margin-bottom: 0.5rem;">⚠️</div>
+      <h2 class="modal-title" id="modalTitle">Reset All Ticket Sales?</h2>
+      <p class="modal-desc">
+        Are you sure you want to clear your ticket counts across all 4 festivals? This will set all sales back to zero.
+      </p>
+      <div class="modal-actions">
+        <button type="button" class="btn-action btn-action-secondary" id="btnCancelReset">Cancel</button>
+        <button type="button" class="btn-action btn-danger" id="btnConfirmReset">Yes, Reset All</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Icon Picker Modal -->
+  <div class="icon-picker-overlay" id="iconPickerModal" role="dialog" aria-modal="true" aria-labelledby="iconPickerTitle">
+    <div class="icon-picker-card">
+      <div class="icon-picker-header">
+        <h2 class="icon-picker-title" id="iconPickerTitle">Choose Festival Icon</h2>
+        <button type="button" class="btn-close-picker" id="btnCloseIconPicker" aria-label="Close icon picker">✕</button>
+      </div>
+      <div class="emoji-grid" id="emojiGrid"></div>
+      <div class="custom-emoji-section">
+        <input 
+          type="text" 
+          id="customEmojiInput" 
+          class="custom-emoji-input" 
+          maxlength="6" 
+          placeholder="Or type/paste any emoji..." 
+          aria-label="Custom emoji or symbol"
+        />
+        <button type="button" class="btn-apply-custom" id="btnApplyCustomEmoji">Apply</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      "use strict";
+
+      // 4 Default Festival Configurations
+      const DEFAULT_FESTIVALS = [
+        {
+          id: 1,
+          name: "Electric Horizon",
+          location: "Summer Solstice Grounds",
+          icon: "⚡",
+          iconBg: "rgba(168, 85, 247, 0.2)",
+          tickets: 0
+        },
+        {
+          id: 2,
+          name: "Sunset Beats Festival",
+          location: "Coastal Bay Amphitheater",
+          icon: "🌅",
+          iconBg: "rgba(245, 158, 11, 0.2)",
+          tickets: 0
+        },
+        {
+          id: 3,
+          name: "Bass Meadow Experience",
+          location: "Highland Valley Fields",
+          icon: "🔊",
+          iconBg: "rgba(6, 182, 212, 0.2)",
+          tickets: 0
+        },
+        {
+          id: 4,
+          name: "Neon Valley Nights",
+          location: "Downtown City Plaza",
+          icon: "✨",
+          iconBg: "rgba(244, 63, 94, 0.2)",
+          tickets: 0
+        }
+      ];
+
+      const PRESET_EMOJIS = [
+        "⚡", "🌅", "🔊", "✨", "🎪",
+        "🎸", "🎵", "🎧", "🌴", "🎆",
+        "🔥", "🎉", "🌟", "🎤", "🌈",
+        "🚀", "🏖️", "🏕️", "🎡", "🎟️"
+      ];
+
+      const STORAGE_KEY = "music_ambassador_tracker_v1";
+
+      // Load saved state or default
+      let festivals = loadState();
+
+      function loadState() {
+        try {
+          const raw = localStorage.getItem(STORAGE_KEY);
+          if (raw) {
+            const parsed = JSON.parse(raw);
+            if (Array.isArray(parsed) && parsed.length === 4) {
+              return DEFAULT_FESTIVALS.map((def, idx) => ({
+                id: def.id,
+                name: parsed[idx]?.name || def.name,
+                location: parsed[idx]?.location || def.location,
+                icon: parsed[idx]?.icon || def.icon,
+                iconBg: parsed[idx]?.iconBg || def.iconBg,
+                tickets: Math.max(0, parseInt(parsed[idx]?.tickets, 10) || 0)
+              }));
+            }
+          }
+        } catch (e) {
+          console.warn("Could not load saved data from localStorage:", e);
+        }
+        return JSON.parse(JSON.stringify(DEFAULT_FESTIVALS));
+      }
+
+      function saveState() {
+        try {
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(festivals));
+        } catch (e) {
+          console.warn("Failed to save to localStorage:", e);
+        }
+      }
+
+      // DOM Elements
+      const gridContainer = document.getElementById("festivalsGrid");
+      const totalTicketsDisplay = document.getElementById("totalTicketsDisplay");
+      const baseCommissionDisplay = document.getElementById("baseCommissionDisplay");
+      const bonusDisplay = document.getElementById("bonusDisplay");
+      const bonusTierCount = document.getElementById("bonusTierCount");
+      const totalPayoutDisplay = document.getElementById("totalPayoutDisplay");
+      const progressFill = document.getElementById("progressFill");
+      const progressBarRole = document.getElementById("progressBarRole");
+      const milestonesEarnedBadge = document.getElementById("milestonesEarnedBadge");
+      const milestoneTargetText = document.getElementById("milestoneTargetText");
+      const currentBatchProgress = document.getElementById("currentBatchProgress");
+      const toast = document.getElementById("toastMessage");
+      const toastText = document.getElementById("toastText");
+      const toastIcon = document.getElementById("toastIcon");
+      const confirmModal = document.getElementById("confirmModal");
+      const btnPromptReset = document.getElementById("btnPromptReset");
+      const btnCancelReset = document.getElementById("btnCancelReset");
+      const btnConfirmReset = document.getElementById("btnConfirmReset");
+      const btnCopyReport = document.getElementById("btnCopyReport");
+
+      // Icon Picker DOM Elements
+      const iconPickerModal = document.getElementById("iconPickerModal");
+      const btnCloseIconPicker = document.getElementById("btnCloseIconPicker");
+      const emojiGrid = document.getElementById("emojiGrid");
+      const customEmojiInput = document.getElementById("customEmojiInput");
+      const btnApplyCustomEmoji = document.getElementById("btnApplyCustomEmoji");
+      let activeFestivalIndexForIcon = null;
+
+      let toastTimer = null;
+
+      function showToast(message, icon = "✨", duration = 3000) {
+        if (toastTimer) clearTimeout(toastTimer);
+        toastText.textContent = message;
+        toastIcon.textContent = icon;
+        toast.classList.add("show");
+        toastTimer = setTimeout(() => {
+          toast.classList.remove("show");
+        }, duration);
+      }
+
+      // Format currency
+      function formatMoney(amount) {
+        return "$" + amount.toLocaleString("en-US", { minimumFractionDigits: 0, maximumFractionDigits: 0 });
+      }
+
+      // Build & Render Festival Cards
+      function renderFestivalCards() {
+        gridContainer.innerHTML = "";
+
+        festivals.forEach((fest, index) => {
+          const card = document.createElement("article");
+          card.className = "festival-card";
+          card.setAttribute("data-id", fest.id);
+
+          card.innerHTML = `
+            <div class="fest-header">
+              <button 
+                type="button" 
+                class="fest-icon" 
+                style="background: ${fest.iconBg};" 
+                data-index="${index}" 
+                title="Click to edit icon (${escapeHtml(fest.icon)})"
+                aria-label="Change icon for ${escapeHtml(fest.name)}"
+              >
+                <span class="fest-icon-char">${fest.icon}</span>
+                <span class="icon-edit-badge" aria-hidden="true">✏️</span>
+              </button>
+              <div class="fest-title-area">
+                <input 
+                  type="text" 
+                  class="fest-name-input" 
+                  value="${escapeHtml(fest.name)}" 
+                  aria-label="Festival Name" 
+                  data-index="${index}"
+                  title="Click to customize festival name"
+                />
+                <input 
+                  type="text" 
+                  class="fest-location-input" 
+                  value="${escapeHtml(fest.location)}" 
+                  aria-label="Festival Location or Subtitle" 
+                  data-index="${index}"
+                  title="Click to customize location or subtitle"
+                />
+              </div>
+            </div>
+
+            <div>
+              <label for="input-fest-${fest.id}" style="font-size: 0.8rem; color: var(--text-muted); font-weight: 600; display: block; margin-bottom: 0.35rem;">
+                Tickets Sold
+              </label>
+              <div class="input-row">
+                <div class="number-stepper">
+                  <button type="button" class="stepper-btn" data-action="dec" data-index="${index}" aria-label="Decrease ticket count by 1">
+                    −
+                  </button>
+                  <input 
+                    type="number" 
+                    id="input-fest-${fest.id}"
+                    class="ticket-input" 
+                    value="${fest.tickets}" 
+                    min="0" 
+                    step="1"
+                    data-index="${index}"
+                    aria-label="Number of tickets sold for ${escapeHtml(fest.name)}"
+                  />
+                  <button type="button" class="stepper-btn" data-action="inc" data-index="${index}" aria-label="Increase ticket count by 1">
+                    +
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <div class="card-error-msg" id="error-msg-${index}"></div>
+
+            <div class="quick-buttons">
+              <button type="button" class="btn-quick" data-action="add" data-amount="1" data-index="${index}">+1</button>
+              <button type="button" class="btn-quick" data-action="add" data-amount="5" data-index="${index}">+5</button>
+              <button type="button" class="btn-quick" data-action="add" data-amount="10" data-index="${index}">+10</button>
+              <button type="button" class="btn-quick btn-clear" data-action="clear" data-index="${index}" title="Reset this festival's tickets to 0">0</button>
+            </div>
+
+            <div class="fest-subtotal">
+              <span style="color: var(--text-muted);">Festival Commission ($5/ea):</span>
+              <span class="fest-subtotal-val" id="subtotal-${index}">$${(fest.tickets * 5).toLocaleString()}</span>
+            </div>
+          `;
+
+          gridContainer.appendChild(card);
+        });
+
+        attachCardEventListeners();
+      }
+
+      function escapeHtml(str) {
+        return str.replace(/[&<>"']/g, function (m) {
+          return {
+            "&": "&amp;",
+            "<": "&lt;",
+            ">": "&gt;",
+            '"': "&quot;",
+            "'": "&#39;"
+          }[m];
+        });
+      }
+
+      // Card event listeners
+      function attachCardEventListeners() {
+        // Festival Icon click to edit
+        document.querySelectorAll(".fest-icon").forEach(btn => {
+          btn.addEventListener("click", () => {
+            const idx = parseInt(btn.dataset.index, 10);
+            openIconPicker(idx);
+          });
+        });
+
+        // Festival Name editing
+        document.querySelectorAll(".fest-name-input").forEach(input => {
+          input.addEventListener("input", (e) => {
+            const idx = parseInt(e.target.dataset.index, 10);
+            festivals[idx].name = e.target.value.trim() || `Festival ${idx + 1}`;
+            saveState();
+          });
+        });
+
+        // Festival Location / Subtitle editing
+        document.querySelectorAll(".fest-location-input").forEach(input => {
+          input.addEventListener("input", (e) => {
+            const idx = parseInt(e.target.dataset.index, 10);
+            festivals[idx].location = e.target.value.trim() || `Location ${idx + 1}`;
+            saveState();
+          });
+        });
+
+        // Numeric Ticket Inputs
+        document.querySelectorAll(".ticket-input").forEach(input => {
+          input.addEventListener("input", (e) => {
+            const idx = parseInt(e.target.dataset.index, 10);
+            handleInputValidation(idx, e.target.value);
+          });
+
+          input.addEventListener("blur", (e) => {
+            const idx = parseInt(e.target.dataset.index, 10);
+            // On blur, normalize empty input to 0
+            if (e.target.value.trim() === "" || isNaN(parseInt(e.target.value, 10))) {
+              festivals[idx].tickets = 0;
+              e.target.value = 0;
+              hideErrorMessage(idx);
+              updateCalculations();
+              saveState();
+            }
+          });
+        });
+
+        // Stepper buttons (- and +)
+        document.querySelectorAll(".stepper-btn").forEach(btn => {
+          btn.addEventListener("click", (e) => {
+            const action = btn.dataset.action;
+            const idx = parseInt(btn.dataset.index, 10);
+            const input = document.getElementById(`input-fest-${festivals[idx].id}`);
+
+            if (action === "inc") {
+              festivals[idx].tickets += 1;
+              input.value = festivals[idx].tickets;
+              hideErrorMessage(idx);
+            } else if (action === "dec") {
+              if (festivals[idx].tickets > 0) {
+                festivals[idx].tickets -= 1;
+                input.value = festivals[idx].tickets;
+                hideErrorMessage(idx);
+              } else {
+                showErrorMessage(idx, "Ticket sales can't be negative! You're already at zero for this festival.");
+              }
+            }
+
+            updateCalculations();
+            saveState();
+          });
+        });
+
+        // Quick add buttons (+1, +5, +10, 0)
+        document.querySelectorAll(".btn-quick").forEach(btn => {
+          btn.addEventListener("click", () => {
+            const action = btn.dataset.action;
+            const idx = parseInt(btn.dataset.index, 10);
+            const input = document.getElementById(`input-fest-${festivals[idx].id}`);
+
+            if (action === "add") {
+              const amount = parseInt(btn.dataset.amount, 10);
+              festivals[idx].tickets += amount;
+              input.value = festivals[idx].tickets;
+              hideErrorMessage(idx);
+            } else if (action === "clear") {
+              festivals[idx].tickets = 0;
+              input.value = 0;
+              hideErrorMessage(idx);
+            }
+
+            updateCalculations();
+            saveState();
+          });
+        });
+      }
+
+      // Friendly validation & error handling
+      function handleInputValidation(idx, rawValue) {
+        const errorEl = document.getElementById(`error-msg-${idx}`);
+        const trimmed = rawValue.trim();
+
+        if (trimmed === "") {
+          festivals[idx].tickets = 0;
+          hideErrorMessage(idx);
+          updateCalculations();
+          saveState();
+          return;
+        }
+
+        const num = Number(trimmed);
+
+        if (isNaN(num)) {
+          showErrorMessage(idx, "Friendly reminder: Please enter digits only for ticket sales.");
+          return;
+        }
+
+        if (num < 0) {
+          showErrorMessage(idx, "Oops! Ticket counts cannot be negative. We reset it to 0 for you.");
+          festivals[idx].tickets = 0;
+          document.getElementById(`input-fest-${festivals[idx].id}`).value = 0;
+          updateCalculations();
+          saveState();
+          return;
+        }
+
+        if (!Number.isInteger(num)) {
+          showErrorMessage(idx, "Tickets are sold as whole numbers only! We rounded down for you.");
+          festivals[idx].tickets = Math.floor(num);
+          document.getElementById(`input-fest-${festivals[idx].id}`).value = festivals[idx].tickets;
+          updateCalculations();
+          saveState();
+          return;
+        }
+
+        if (num > 100000) {
+          showErrorMessage(idx, "Whoa, incredible numbers! Please verify this isn't an accidental extra digit.");
+        } else {
+          hideErrorMessage(idx);
+        }
+
+        festivals[idx].tickets = num;
+        updateCalculations();
+        saveState();
+      }
+
+      function showErrorMessage(idx, msg) {
+        const errorEl = document.getElementById(`error-msg-${idx}`);
+        if (errorEl) {
+          errorEl.textContent = msg;
+          errorEl.classList.add("visible");
+        }
+      }
+
+      function hideErrorMessage(idx) {
+        const errorEl = document.getElementById(`error-msg-${idx}`);
+        if (errorEl) {
+          errorEl.textContent = "";
+          errorEl.classList.remove("visible");
+        }
+      }
+
+      // Central Calculation & UI Update
+      function updateCalculations() {
+        const totalTickets = festivals.reduce((sum, f) => sum + f.tickets, 0);
+
+        // Core business logic:
+        // $5 per ticket sold
+        const baseCommission = totalTickets * 5;
+        // $150 bonus every 50 tickets sold
+        const milestoneCount = Math.floor(totalTickets / 50);
+        const milestoneBonus = milestoneCount * 150;
+        const totalEarnings = baseCommission + milestoneBonus;
+
+        // Progress towards next 50-ticket milestone
+        const ticketsInCurrentTier = totalTickets % 50;
+        const ticketsNeededForNext = 50 - ticketsInCurrentTier;
+        const progressPercentage = (ticketsInCurrentTier / 50) * 100;
+
+        // Update Stat Displays
+        totalTicketsDisplay.textContent = totalTickets.toLocaleString();
+        baseCommissionDisplay.textContent = formatMoney(baseCommission);
+        bonusDisplay.textContent = formatMoney(milestoneBonus);
+        bonusTierCount.textContent = `${milestoneCount} unlocked ($150 / 50 sold)`;
+        totalPayoutDisplay.textContent = formatMoney(totalEarnings);
+
+        // Update Milestone Section
+        progressFill.style.width = `${progressPercentage}%`;
+        progressBarRole.setAttribute("aria-valuenow", ticketsInCurrentTier);
+
+        milestonesEarnedBadge.textContent = `${milestoneCount} ${milestoneCount === 1 ? "Bonus" : "Bonuses"} Earned`;
+
+        if (totalTickets === 0) {
+          milestoneTargetText.textContent = "Sell 50 tickets to unlock your first $150 bonus!";
+          currentBatchProgress.textContent = "0 / 50 tickets towards next bonus";
+        } else if (ticketsNeededForNext === 50) {
+          milestoneTargetText.textContent = `🎉 Milestone hit! Sell 50 more for bonus #${milestoneCount + 1}!`;
+          currentBatchProgress.textContent = `0 / 50 tickets towards next bonus (Tier ${milestoneCount + 1})`;
+        } else {
+          milestoneTargetText.textContent = `Only ${ticketsNeededForNext} more ${ticketsNeededForNext === 1 ? "ticket" : "tickets"} until your next $150 bonus!`;
+          currentBatchProgress.textContent = `${ticketsInCurrentTier} / 50 tickets towards next bonus`;
+        }
+
+        // Update Subtotals on each card
+        festivals.forEach((f, idx) => {
+          const subtotalEl = document.getElementById(`subtotal-${idx}`);
+          if (subtotalEl) {
+            subtotalEl.textContent = formatMoney(f.tickets * 5);
+          }
+        });
+      }
+
+      // Copy sales report for ambassador's manager or notes
+      btnCopyReport.addEventListener("click", () => {
+        const totalTickets = festivals.reduce((sum, f) => sum + f.tickets, 0);
+        const baseCommission = totalTickets * 5;
+        const milestoneCount = Math.floor(totalTickets / 50);
+        const milestoneBonus = milestoneCount * 150;
+        const totalEarnings = baseCommission + milestoneBonus;
+        const needed = 50 - (totalTickets % 50);
+
+        let report = `🎵 Music Brand Ambassador Sales Report\n`;
+        report += `────────────────────────────\n`;
+        festivals.forEach(f => {
+          report += `• ${f.icon} ${f.name} (${f.location}): ${f.tickets} tickets ($${(f.tickets * 5).toLocaleString()})\n`;
+        });
+        report += `────────────────────────────\n`;
+        report += `Total Tickets: ${totalTickets.toLocaleString()}\n`;
+        report += `Base Commission ($5/ea): ${formatMoney(baseCommission)}\n`;
+        report += `Milestone Bonuses (${milestoneCount}x $150): ${formatMoney(milestoneBonus)}\n`;
+        report += `TOTAL EARNINGS: ${formatMoney(totalEarnings)}\n`;
+        report += `Next Bonus: ${needed} tickets away\n`;
+
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(report).then(() => {
+            showToast("Sales report copied to clipboard!", "📋");
+          }).catch(() => {
+            fallbackCopy(report);
+          });
+        } else {
+          fallbackCopy(report);
+        }
+      });
+
+      function fallbackCopy(text) {
+        const textArea = document.createElement("textarea");
+        textArea.value = text;
+        textArea.style.position = "fixed";
+        textArea.style.opacity = "0";
+        document.body.appendChild(textArea);
+        textArea.focus();
+        textArea.select();
+        try {
+          document.execCommand("copy");
+          showToast("Sales report copied to clipboard!", "📋");
+        } catch (err) {
+          showToast("Unable to copy automatically.", "⚠️");
+        }
+        document.body.removeChild(textArea);
+      }
+
+      // Icon Picker Methods
+      function initIconPicker() {
+        emojiGrid.innerHTML = "";
+        PRESET_EMOJIS.forEach(emoji => {
+          const btn = document.createElement("button");
+          btn.type = "button";
+          btn.className = "emoji-option";
+          btn.textContent = emoji;
+          btn.setAttribute("aria-label", `Select emoji ${emoji}`);
+          btn.addEventListener("click", () => {
+            selectEmoji(emoji);
+          });
+          emojiGrid.appendChild(btn);
+        });
+
+        btnCloseIconPicker.addEventListener("click", closeIconPicker);
+        iconPickerModal.addEventListener("click", (e) => {
+          if (e.target === iconPickerModal) closeIconPicker();
+        });
+
+        btnApplyCustomEmoji.addEventListener("click", () => {
+          const val = customEmojiInput.value.trim();
+          if (val) {
+            selectEmoji(val);
+          } else {
+            showToast("Please enter an emoji or symbol first!", "💡");
+          }
+        });
+
+        customEmojiInput.addEventListener("keydown", (e) => {
+          if (e.key === "Enter") {
+            e.preventDefault();
+            btnApplyCustomEmoji.click();
+          }
+        });
+      }
+
+      function openIconPicker(idx) {
+        activeFestivalIndexForIcon = idx;
+        customEmojiInput.value = "";
+        iconPickerModal.classList.add("active");
+        setTimeout(() => customEmojiInput.focus(), 80);
+      }
+
+      function closeIconPicker() {
+        iconPickerModal.classList.remove("active");
+        activeFestivalIndexForIcon = null;
+      }
+
+      function selectEmoji(emoji) {
+        if (activeFestivalIndexForIcon !== null) {
+          festivals[activeFestivalIndexForIcon].icon = emoji;
+          saveState();
+          renderFestivalCards();
+          updateCalculations();
+          showToast(`Festival icon updated to ${emoji}!`, emoji);
+          closeIconPicker();
+        }
+      }
+
+      // Reset Modal handlers
+      btnPromptReset.addEventListener("click", () => {
+        confirmModal.classList.add("active");
+      });
+
+      btnCancelReset.addEventListener("click", () => {
+        confirmModal.classList.remove("active");
+      });
+
+      confirmModal.addEventListener("click", (e) => {
+        if (e.target === confirmModal) {
+          confirmModal.classList.remove("active");
+        }
+      });
+
+      btnConfirmReset.addEventListener("click", () => {
+        festivals.forEach((f, idx) => {
+          f.tickets = 0;
+          const input = document.getElementById(`input-fest-${f.id}`);
+          if (input) input.value = 0;
+          hideErrorMessage(idx);
+        });
+
+        updateCalculations();
+        saveState();
+        confirmModal.classList.remove("active");
+        showToast("All ticket sales have been reset to zero.", "🔄");
+      });
+
+      // Initial Render
+      initIconPicker();
+      renderFestivalCards();
+      updateCalculations();
+    })();
+  </script>
+</body>
+</html>
