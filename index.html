@@ -227,6 +227,229 @@
       color: var(--text-muted);
     }
 
+    /* Bonus Config Button & Panel */
+    .btn-toggle-config {
+      background: rgba(168, 85, 247, 0.16);
+      border: 1px solid rgba(168, 85, 247, 0.45);
+      color: var(--primary-neon-bright);
+      padding: 0.35rem 0.75rem;
+      border-radius: 8px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      transition: var(--transition);
+      touch-action: manipulation;
+    }
+
+    .btn-toggle-config:hover {
+      background: rgba(168, 85, 247, 0.35);
+      border-color: var(--primary-neon-bright);
+      color: #fff;
+    }
+
+    .bonus-config-card {
+      background: #141930;
+      border: 1px solid var(--card-hover-border);
+      border-radius: 18px;
+      padding: 1.35rem;
+      box-shadow: var(--shadow-glow);
+      display: flex;
+      flex-direction: column;
+      gap: 1.15rem;
+      animation: fadeIn 0.25s ease-out;
+    }
+
+    .bonus-config-card.hidden {
+      display: none;
+    }
+
+    .bonus-config-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+    }
+
+    .config-rate-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      background: rgba(255, 255, 255, 0.03);
+      padding: 0.75rem 1rem;
+      border-radius: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.07);
+    }
+
+    .money-input-wrapper {
+      display: flex;
+      align-items: center;
+      background: var(--input-bg);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 8px;
+      padding: 0 0.5rem;
+    }
+
+    .money-prefix {
+      color: var(--accent-emerald);
+      font-weight: 700;
+      font-size: 0.95rem;
+    }
+
+    .config-num-input {
+      background: transparent;
+      border: none;
+      color: #fff;
+      font-size: 0.95rem;
+      font-weight: 700;
+      padding: 0.4rem 0.35rem;
+      width: 75px;
+      outline: none;
+    }
+
+    .preset-buttons-area {
+      display: flex;
+      align-items: center;
+      gap: 0.45rem;
+      flex-wrap: wrap;
+    }
+
+    .btn-preset {
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      color: var(--text-muted);
+      padding: 0.35rem 0.75rem;
+      border-radius: 8px;
+      font-size: 0.78rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+      touch-action: manipulation;
+    }
+
+    .btn-preset:hover {
+      background: rgba(6, 182, 212, 0.2);
+      border-color: var(--accent-cyan);
+      color: #fff;
+    }
+
+    .tier-list-container {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      background: rgba(10, 14, 28, 0.6);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 14px;
+      padding: 0.85rem;
+    }
+
+    .tier-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr auto auto;
+      gap: 0.65rem;
+      align-items: center;
+      background: rgba(255, 255, 255, 0.03);
+      padding: 0.55rem 0.75rem;
+      border-radius: 10px;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      transition: var(--transition);
+    }
+
+    .tier-row:hover {
+      border-color: rgba(255, 255, 255, 0.12);
+      background: rgba(255, 255, 255, 0.05);
+    }
+
+    @media (max-width: 640px) {
+      .tier-row {
+        grid-template-columns: 1fr 1fr;
+        gap: 0.6rem;
+      }
+      .tier-row .tier-badge-cell {
+        grid-column: 1 / -1;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-top: 1px solid rgba(255, 255, 255, 0.06);
+        padding-top: 0.4rem;
+        margin-top: 0.2rem;
+      }
+    }
+
+    .tier-input-group {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-size: 0.82rem;
+      color: var(--text-muted);
+    }
+
+    .tier-input {
+      background: var(--input-bg);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      color: #fff;
+      border-radius: 8px;
+      padding: 0.35rem 0.45rem;
+      font-size: 0.88rem;
+      font-weight: 700;
+      width: 72px;
+      text-align: center;
+      outline: none;
+      transition: var(--transition);
+    }
+
+    .tier-input:focus {
+      border-color: var(--primary-neon-bright);
+    }
+
+    .tier-badge {
+      font-size: 0.76rem;
+      font-weight: 700;
+      padding: 0.25rem 0.6rem;
+      border-radius: 6px;
+      white-space: nowrap;
+    }
+
+    .tier-badge.unlocked {
+      background: rgba(16, 185, 129, 0.18);
+      border: 1px solid rgba(16, 185, 129, 0.4);
+      color: #34d399;
+    }
+
+    .tier-badge.locked {
+      background: rgba(148, 163, 184, 0.1);
+      border: 1px solid rgba(148, 163, 184, 0.2);
+      color: var(--text-muted);
+    }
+
+    .btn-tier-del {
+      background: transparent;
+      border: none;
+      color: var(--text-dim);
+      font-size: 1.1rem;
+      cursor: pointer;
+      padding: 0.25rem 0.45rem;
+      border-radius: 6px;
+      transition: var(--transition);
+      touch-action: manipulation;
+    }
+
+    .btn-tier-del:hover {
+      color: var(--accent-rose);
+      background: rgba(244, 63, 94, 0.18);
+    }
+
+    .tier-actions-row {
+      display: flex;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+    }
+
     /* Festival Cards Grid */
     .festivals-grid {
       display: grid;
@@ -874,13 +1097,13 @@
       <div class="stat-card">
         <span class="stat-label">Base Commission</span>
         <div class="stat-value" id="baseCommissionDisplay">$0</div>
-        <span class="stat-subtext">$5 per ticket</span>
+        <span class="stat-subtext" id="baseRateSubtext">$5 per ticket</span>
       </div>
 
       <div class="stat-card">
         <span class="stat-label">Milestone Bonuses</span>
         <div class="stat-value" id="bonusDisplay">$0</div>
-        <span class="stat-subtext" id="bonusTierCount">0 unlocked ($150 / 50 sold)</span>
+        <span class="stat-subtext" id="bonusTierCount">0 unlocked</span>
       </div>
 
       <div class="stat-card featured">
@@ -894,12 +1117,17 @@
     <section class="milestone-box" aria-label="Bonus Milestone Tracker">
       <div class="milestone-header">
         <div class="milestone-title">
-          <span>🎯 Next $150 Milestone Progress</span>
+          <span>🎯 Next Bonus Milestone</span>
           <span class="milestone-badge" id="milestonesEarnedBadge">0 Bonuses Earned</span>
         </div>
-        <span id="milestoneTargetText" style="font-size: 0.85rem; color: var(--accent-cyan); font-weight: 600;">
-          50 tickets until your next bonus
-        </span>
+        <div style="display: flex; gap: 0.6rem; align-items: center; flex-wrap: wrap;">
+          <span id="milestoneTargetText" style="font-size: 0.85rem; color: var(--accent-cyan); font-weight: 600;">
+            50 tickets until your next bonus
+          </span>
+          <button type="button" class="btn-toggle-config" id="btnToggleBonusConfig" title="Customize bonus tiers and rules">
+            ⚙️ Customize Bonuses
+          </button>
+        </div>
       </div>
 
       <div class="progress-track" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="50" id="progressBarRole">
@@ -912,6 +1140,67 @@
       </div>
     </section>
 
+    <!-- Customizable Bonus Tiers & Commission Panel -->
+    <section class="bonus-config-card hidden" id="bonusConfigPanel" aria-label="Bonus and Commission Settings">
+      <div class="bonus-config-header">
+        <div>
+          <h2 style="font-size: 1.05rem; font-weight: 700; color: var(--text-main); display: flex; align-items: center; gap: 0.4rem;">
+            ⚙️ Customizable Bonus Tiers &amp; Commission
+          </h2>
+          <p style="font-size: 0.82rem; color: var(--text-muted); margin-top: 0.2rem;">
+            Bonuses vary! Adjust milestone ticket targets and payout amounts, or pick a quick preset.
+          </p>
+        </div>
+        <button type="button" class="btn-quick" id="btnCloseConfig" style="flex: 0 0 auto; padding: 0.35rem 0.75rem; font-size: 0.8rem;" title="Close settings">
+          ✕ Close
+        </button>
+      </div>
+
+      <!-- Base Rate & Presets Row -->
+      <div class="config-rate-row">
+        <div style="display: flex; align-items: center; gap: 0.6rem;">
+          <label for="baseRateInput" style="font-size: 0.85rem; font-weight: 600; color: var(--text-main);">
+            Base Rate / Ticket:
+          </label>
+          <div class="money-input-wrapper">
+            <span class="money-prefix">$</span>
+            <input type="number" id="baseRateInput" class="config-num-input" value="5" min="0" step="0.5" aria-label="Base commission per ticket in dollars" />
+          </div>
+        </div>
+
+        <div class="preset-buttons-area">
+          <span style="font-size: 0.76rem; color: var(--text-dim); font-weight: 700; text-transform: uppercase;">Presets:</span>
+          <button type="button" class="btn-preset" data-preset="standard">Every 50 Tix ($150)</button>
+          <button type="button" class="btn-preset" data-preset="hundreds">Every 100 Tix ($300)</button>
+          <button type="button" class="btn-preset" data-preset="escalating">Escalating (100+ Boost)</button>
+        </div>
+      </div>
+
+      <!-- Tier List -->
+      <div class="tier-list-container">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.25rem;">
+          <span style="font-size: 0.8rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em;">
+            Milestone Tiers
+          </span>
+          <span style="font-size: 0.75rem; color: var(--text-dim);">
+            Saves automatically
+          </span>
+        </div>
+        <div id="tiersListItems" style="display: flex; flex-direction: column; gap: 0.5rem;">
+          <!-- Populated dynamically by JavaScript -->
+        </div>
+      </div>
+
+      <div class="tier-actions-row">
+        <button type="button" class="btn-action btn-action-primary" id="btnAddTier" style="font-size: 0.85rem; padding: 0.45rem 1rem;">
+          + Add Milestone Tier
+        </button>
+        <button type="button" class="btn-action btn-action-secondary" id="btnResetTiers" style="font-size: 0.85rem; padding: 0.45rem 1rem;">
+          ↺ Reset Tiers to Default
+        </button>
+      </div>
+    </section>
+
     <!-- 4 Festival Cards Grid -->
     <section class="festivals-grid" id="festivalsGrid" aria-label="Festivals List">
       <!-- Populated dynamically by JavaScript -->
@@ -919,11 +1208,11 @@
 
     <!-- Commission Rate Reference Guide -->
     <section class="rules-card">
-      <div><strong>Commission Structure Guide:</strong></div>
-      <div class="rules-pills">
-        <div class="pill-info">🎟️ <strong>$5.00</strong> commission for every ticket sold</div>
-        <div class="pill-info">🎁 <strong>$150.00 bonus</strong> for every 50 tickets reached (50, 100, 150, ...)</div>
-        <div class="pill-info">💾 Automatic instant saving to your device</div>
+      <div><strong>Active Commission Structure:</strong></div>
+      <div class="rules-pills" id="rulesPillsContainer">
+        <div class="pill-info" id="pillBaseRate">🎟️ <strong>$5.00</strong> base commission per ticket sold</div>
+        <div class="pill-info" id="pillBonusSummary">🎁 Customizable milestone bonuses active</div>
+        <div class="pill-info">💾 Instant auto-save to device</div>
       </div>
     </section>
 
@@ -1030,36 +1319,111 @@
         "🚀", "🏖️", "🏕️", "🎡", "🎟️"
       ];
 
+      const DEFAULT_BASE_RATE = 5;
+      const DEFAULT_BONUS_TIERS = [
+        { tickets: 50, bonus: 150 },
+        { tickets: 100, bonus: 200 },
+        { tickets: 150, bonus: 250 },
+        { tickets: 200, bonus: 350 },
+        { tickets: 300, bonus: 500 },
+        { tickets: 400, bonus: 700 },
+        { tickets: 500, bonus: 1000 }
+      ];
+
+      const PRESETS = {
+        standard: [
+          { tickets: 50, bonus: 150 },
+          { tickets: 100, bonus: 150 },
+          { tickets: 150, bonus: 150 },
+          { tickets: 200, bonus: 150 },
+          { tickets: 250, bonus: 150 },
+          { tickets: 300, bonus: 150 },
+          { tickets: 350, bonus: 150 },
+          { tickets: 400, bonus: 150 },
+          { tickets: 450, bonus: 150 },
+          { tickets: 500, bonus: 150 }
+        ],
+        hundreds: [
+          { tickets: 100, bonus: 300 },
+          { tickets: 200, bonus: 600 },
+          { tickets: 300, bonus: 900 },
+          { tickets: 400, bonus: 1200 },
+          { tickets: 500, bonus: 1500 }
+        ],
+        escalating: [
+          { tickets: 50, bonus: 150 },
+          { tickets: 100, bonus: 250 },
+          { tickets: 150, bonus: 350 },
+          { tickets: 200, bonus: 500 },
+          { tickets: 300, bonus: 800 },
+          { tickets: 400, bonus: 1200 },
+          { tickets: 500, bonus: 1800 }
+        ]
+      };
+
       const STORAGE_KEY = "music_ambassador_tracker_v1";
 
       // Load saved state or default
-      let festivals = loadState();
+      let appState = loadState();
+      let festivals = appState.festivals;
+      let baseRate = appState.baseRate;
+      let bonusTiers = appState.bonusTiers;
+
+      function parseFestivals(list) {
+        if (!Array.isArray(list) || list.length !== 4) {
+          return JSON.parse(JSON.stringify(DEFAULT_FESTIVALS));
+        }
+        return DEFAULT_FESTIVALS.map((def, idx) => ({
+          id: def.id,
+          name: list[idx]?.name || def.name,
+          location: list[idx]?.location || def.location,
+          icon: list[idx]?.icon || def.icon,
+          iconBg: def.iconBg,
+          tickets: Math.max(0, parseInt(list[idx]?.tickets, 10) || 0)
+        }));
+      }
 
       function loadState() {
         try {
           const raw = localStorage.getItem(STORAGE_KEY);
           if (raw) {
             const parsed = JSON.parse(raw);
-            if (Array.isArray(parsed) && parsed.length === 4) {
-              return DEFAULT_FESTIVALS.map((def, idx) => ({
-                id: def.id,
-                name: parsed[idx]?.name || def.name,
-                location: parsed[idx]?.location || def.location,
-                icon: parsed[idx]?.icon || def.icon,
-                iconBg: parsed[idx]?.iconBg || def.iconBg,
-                tickets: Math.max(0, parseInt(parsed[idx]?.tickets, 10) || 0)
-              }));
+            if (Array.isArray(parsed)) {
+              return {
+                festivals: parseFestivals(parsed),
+                baseRate: DEFAULT_BASE_RATE,
+                bonusTiers: JSON.parse(JSON.stringify(DEFAULT_BONUS_TIERS))
+              };
+            } else if (parsed && typeof parsed === "object") {
+              return {
+                festivals: parseFestivals(parsed.festivals),
+                baseRate: typeof parsed.baseRate === "number" && parsed.baseRate >= 0 ? parsed.baseRate : DEFAULT_BASE_RATE,
+                bonusTiers: Array.isArray(parsed.bonusTiers) && parsed.bonusTiers.length > 0
+                  ? parsed.bonusTiers.map(t => ({
+                      tickets: Math.max(1, parseInt(t.tickets, 10) || 1),
+                      bonus: Math.max(0, parseFloat(t.bonus) || 0)
+                    })).sort((a, b) => a.tickets - b.tickets)
+                  : JSON.parse(JSON.stringify(DEFAULT_BONUS_TIERS))
+              };
             }
           }
         } catch (e) {
           console.warn("Could not load saved data from localStorage:", e);
         }
-        return JSON.parse(JSON.stringify(DEFAULT_FESTIVALS));
+        return {
+          festivals: JSON.parse(JSON.stringify(DEFAULT_FESTIVALS)),
+          baseRate: DEFAULT_BASE_RATE,
+          bonusTiers: JSON.parse(JSON.stringify(DEFAULT_BONUS_TIERS))
+        };
       }
 
       function saveState() {
         try {
-          localStorage.setItem(STORAGE_KEY, JSON.stringify(festivals));
+          localStorage.setItem(STORAGE_KEY, JSON.stringify({
+            festivals,
+            baseRate,
+            bonusTiers
+          }));
         } catch (e) {
           console.warn("Failed to save to localStorage:", e);
         }
@@ -1069,6 +1433,7 @@
       const gridContainer = document.getElementById("festivalsGrid");
       const totalTicketsDisplay = document.getElementById("totalTicketsDisplay");
       const baseCommissionDisplay = document.getElementById("baseCommissionDisplay");
+      const baseRateSubtext = document.getElementById("baseRateSubtext");
       const bonusDisplay = document.getElementById("bonusDisplay");
       const bonusTierCount = document.getElementById("bonusTierCount");
       const totalPayoutDisplay = document.getElementById("totalPayoutDisplay");
@@ -1077,6 +1442,7 @@
       const milestonesEarnedBadge = document.getElementById("milestonesEarnedBadge");
       const milestoneTargetText = document.getElementById("milestoneTargetText");
       const currentBatchProgress = document.getElementById("currentBatchProgress");
+      const nextBonusReward = document.getElementById("nextBonusReward");
       const toast = document.getElementById("toastMessage");
       const toastText = document.getElementById("toastText");
       const toastIcon = document.getElementById("toastIcon");
@@ -1085,6 +1451,17 @@
       const btnCancelReset = document.getElementById("btnCancelReset");
       const btnConfirmReset = document.getElementById("btnConfirmReset");
       const btnCopyReport = document.getElementById("btnCopyReport");
+
+      // Bonus Configuration DOM Elements
+      const btnToggleBonusConfig = document.getElementById("btnToggleBonusConfig");
+      const btnCloseConfig = document.getElementById("btnCloseConfig");
+      const bonusConfigPanel = document.getElementById("bonusConfigPanel");
+      const baseRateInput = document.getElementById("baseRateInput");
+      const tiersListItems = document.getElementById("tiersListItems");
+      const btnAddTier = document.getElementById("btnAddTier");
+      const btnResetTiers = document.getElementById("btnResetTiers");
+      const pillBaseRate = document.getElementById("pillBaseRate");
+      const pillBonusSummary = document.getElementById("pillBonusSummary");
 
       // Icon Picker DOM Elements
       const iconPickerModal = document.getElementById("iconPickerModal");
@@ -1375,76 +1752,327 @@
         }
       }
 
+      // Render Customizable Bonus Tiers in settings panel
+      function renderBonusTiers() {
+        if (!tiersListItems) return;
+        tiersListItems.innerHTML = "";
+        const totalTickets = festivals.reduce((sum, f) => sum + f.tickets, 0);
+
+        bonusTiers.sort((a, b) => a.tickets - b.tickets);
+
+        bonusTiers.forEach((tier, index) => {
+          const isUnlocked = totalTickets >= tier.tickets;
+          const row = document.createElement("div");
+          row.className = "tier-row";
+
+          row.innerHTML = `
+            <div class="tier-input-group">
+              <span>Goal:</span>
+              <input 
+                type="number" 
+                class="tier-input tier-tickets-input" 
+                value="${tier.tickets}" 
+                min="1" 
+                step="5" 
+                data-index="${index}" 
+                aria-label="Milestone ticket target"
+              />
+              <span>tix</span>
+            </div>
+
+            <div class="tier-input-group">
+              <span>Bonus: +$</span>
+              <input 
+                type="number" 
+                class="tier-input tier-bonus-input" 
+                value="${tier.bonus}" 
+                min="0" 
+                step="25" 
+                data-index="${index}" 
+                aria-label="Bonus payout in dollars"
+              />
+            </div>
+
+            <div class="tier-badge-cell">
+              <span class="tier-badge ${isUnlocked ? 'unlocked' : 'locked'}">
+                ${isUnlocked ? '✓ Unlocked' : `${tier.tickets - totalTickets} to go`}
+              </span>
+            </div>
+
+            <button type="button" class="btn-tier-del" data-index="${index}" title="Delete this tier" aria-label="Delete milestone tier">
+              🗑️
+            </button>
+          `;
+
+          tiersListItems.appendChild(row);
+        });
+
+        attachTierEventListeners();
+      }
+
+      function attachTierEventListeners() {
+        document.querySelectorAll(".tier-tickets-input").forEach(input => {
+          input.addEventListener("change", (e) => {
+            const idx = parseInt(e.target.dataset.index, 10);
+            const val = parseInt(e.target.value, 10);
+            if (isNaN(val) || val < 1) {
+              showToast("Milestone ticket target must be at least 1 ticket.", "💡");
+              e.target.value = bonusTiers[idx].tickets;
+              return;
+            }
+            bonusTiers[idx].tickets = val;
+            saveState();
+            renderBonusTiers();
+            updateCalculations();
+            showToast(`Updated tier target to ${val} tickets.`, "🎯");
+          });
+        });
+
+        document.querySelectorAll(".tier-bonus-input").forEach(input => {
+          input.addEventListener("change", (e) => {
+            const idx = parseInt(e.target.dataset.index, 10);
+            const val = parseFloat(e.target.value);
+            if (isNaN(val) || val < 0) {
+              showToast("Bonus amount cannot be negative.", "💡");
+              e.target.value = bonusTiers[idx].bonus;
+              return;
+            }
+            bonusTiers[idx].bonus = val;
+            saveState();
+            renderBonusTiers();
+            updateCalculations();
+            showToast(`Updated tier bonus to +$${val.toLocaleString()}.`, "💰");
+          });
+        });
+
+        document.querySelectorAll(".btn-tier-del").forEach(btn => {
+          btn.addEventListener("click", () => {
+            if (bonusTiers.length <= 1) {
+              showToast("You need at least 1 active milestone tier.", "⚠️");
+              return;
+            }
+            const idx = parseInt(btn.dataset.index, 10);
+            const removed = bonusTiers.splice(idx, 1);
+            saveState();
+            renderBonusTiers();
+            updateCalculations();
+            showToast(`Removed ${removed[0].tickets}-ticket milestone tier.`, "🗑️");
+          });
+        });
+      }
+
+      // Bonus settings panel interactions
+      if (btnAddTier) {
+        btnAddTier.addEventListener("click", () => {
+          const lastTier = bonusTiers[bonusTiers.length - 1];
+          const nextTickets = lastTier ? lastTier.tickets + 50 : 50;
+          const nextBonus = lastTier ? Math.round(lastTier.bonus + 100) : 150;
+          bonusTiers.push({ tickets: nextTickets, bonus: nextBonus });
+          saveState();
+          renderBonusTiers();
+          updateCalculations();
+          showToast(`Added new milestone at ${nextTickets} tickets!`, "✨");
+        });
+      }
+
+      if (btnResetTiers) {
+        btnResetTiers.addEventListener("click", () => {
+          bonusTiers = JSON.parse(JSON.stringify(DEFAULT_BONUS_TIERS));
+          baseRate = DEFAULT_BASE_RATE;
+          if (baseRateInput) baseRateInput.value = baseRate;
+          saveState();
+          renderBonusTiers();
+          updateCalculations();
+          showToast("Bonus tiers and base rate reset to default.", "↺");
+        });
+      }
+
+      document.querySelectorAll(".btn-preset").forEach(btn => {
+        btn.addEventListener("click", () => {
+          const presetKey = btn.dataset.preset;
+          if (PRESETS[presetKey]) {
+            bonusTiers = JSON.parse(JSON.stringify(PRESETS[presetKey]));
+            saveState();
+            renderBonusTiers();
+            updateCalculations();
+            showToast(`Applied preset: ${btn.textContent}!`, "🎯");
+          }
+        });
+      });
+
+      if (baseRateInput) {
+        baseRateInput.value = baseRate;
+        baseRateInput.addEventListener("change", (e) => {
+          const val = parseFloat(e.target.value);
+          if (isNaN(val) || val < 0) {
+            showToast("Base commission cannot be negative.", "💡");
+            e.target.value = baseRate;
+            return;
+          }
+          baseRate = val;
+          saveState();
+          updateCalculations();
+          showToast(`Base rate set to $${baseRate.toFixed(2)} / ticket.`, "💲");
+        });
+      }
+
+      if (btnToggleBonusConfig) {
+        btnToggleBonusConfig.addEventListener("click", () => {
+          bonusConfigPanel.classList.toggle("hidden");
+          if (!bonusConfigPanel.classList.contains("hidden")) {
+            renderBonusTiers();
+            bonusConfigPanel.scrollIntoView({ behavior: "smooth", block: "nearest" });
+          }
+        });
+      }
+
+      if (btnCloseConfig) {
+        btnCloseConfig.addEventListener("click", () => {
+          bonusConfigPanel.classList.add("hidden");
+        });
+      }
+
       // Central Calculation & UI Update
       function updateCalculations() {
         const totalTickets = festivals.reduce((sum, f) => sum + f.tickets, 0);
 
-        // Core business logic:
-        // $5 per ticket sold
-        const baseCommission = totalTickets * 5;
-        // $150 bonus every 50 tickets sold
-        const milestoneCount = Math.floor(totalTickets / 50);
-        const milestoneBonus = milestoneCount * 150;
-        const totalEarnings = baseCommission + milestoneBonus;
+        // Base commission calculation
+        const baseCommission = totalTickets * baseRate;
 
-        // Progress towards next 50-ticket milestone
-        const ticketsInCurrentTier = totalTickets % 50;
-        const ticketsNeededForNext = 50 - ticketsInCurrentTier;
-        const progressPercentage = (ticketsInCurrentTier / 50) * 100;
+        // Sort tiers ascending
+        bonusTiers.sort((a, b) => a.tickets - b.tickets);
+
+        let milestoneBonus = 0;
+        let unlockedCount = 0;
+        let nextTier = null;
+        let prevTierTickets = 0;
+
+        for (let i = 0; i < bonusTiers.length; i++) {
+          const tier = bonusTiers[i];
+          if (totalTickets >= tier.tickets) {
+            milestoneBonus += tier.bonus;
+            unlockedCount++;
+            prevTierTickets = tier.tickets;
+          } else {
+            if (!nextTier) {
+              nextTier = tier;
+              break;
+            }
+          }
+        }
+
+        const totalEarnings = baseCommission + milestoneBonus;
 
         // Update Stat Displays
         totalTicketsDisplay.textContent = totalTickets.toLocaleString();
         baseCommissionDisplay.textContent = formatMoney(baseCommission);
+        if (baseRateSubtext) baseRateSubtext.textContent = `$${baseRate.toFixed(2)} per ticket`;
         bonusDisplay.textContent = formatMoney(milestoneBonus);
-        bonusTierCount.textContent = `${milestoneCount} unlocked ($150 / 50 sold)`;
+        bonusTierCount.textContent = `${unlockedCount} of ${bonusTiers.length} unlocked`;
         totalPayoutDisplay.textContent = formatMoney(totalEarnings);
 
         // Update Milestone Section
-        progressFill.style.width = `${progressPercentage}%`;
-        progressBarRole.setAttribute("aria-valuenow", ticketsInCurrentTier);
+        milestonesEarnedBadge.textContent = `${unlockedCount} of ${bonusTiers.length} Achieved`;
 
-        milestonesEarnedBadge.textContent = `${milestoneCount} ${milestoneCount === 1 ? "Bonus" : "Bonuses"} Earned`;
+        if (nextTier) {
+          const ticketsNeededForNext = nextTier.tickets - totalTickets;
+          const tierSpan = nextTier.tickets - prevTierTickets;
+          const ticketsInCurrentTier = totalTickets - prevTierTickets;
+          const progressPercentage = Math.min(100, Math.max(0, (ticketsInCurrentTier / (tierSpan || 1)) * 100));
 
-        if (totalTickets === 0) {
-          milestoneTargetText.textContent = "Sell 50 tickets to unlock your first $150 bonus!";
-          currentBatchProgress.textContent = "0 / 50 tickets towards next bonus";
-        } else if (ticketsNeededForNext === 50) {
-          milestoneTargetText.textContent = `🎉 Milestone hit! Sell 50 more for bonus #${milestoneCount + 1}!`;
-          currentBatchProgress.textContent = `0 / 50 tickets towards next bonus (Tier ${milestoneCount + 1})`;
+          progressFill.style.width = `${progressPercentage}%`;
+          progressBarRole.setAttribute("aria-valuenow", ticketsInCurrentTier);
+          progressBarRole.setAttribute("aria-valuemax", tierSpan);
+
+          if (totalTickets === 0) {
+            milestoneTargetText.textContent = `Sell ${nextTier.tickets} tickets to unlock your first +$${nextTier.bonus.toLocaleString()} bonus!`;
+            currentBatchProgress.textContent = `0 / ${nextTier.tickets} tickets towards milestone`;
+          } else {
+            milestoneTargetText.textContent = `Only ${ticketsNeededForNext} more ${ticketsNeededForNext === 1 ? "ticket" : "tickets"} until your +$${nextTier.bonus.toLocaleString()} bonus!`;
+            currentBatchProgress.textContent = `${totalTickets} / ${nextTier.tickets} total tickets (${ticketsNeededForNext} to go)`;
+          }
+
+          nextBonusReward.textContent = `Reward: +$${nextTier.bonus.toLocaleString()}`;
         } else {
-          milestoneTargetText.textContent = `Only ${ticketsNeededForNext} more ${ticketsNeededForNext === 1 ? "ticket" : "tickets"} until your next $150 bonus!`;
-          currentBatchProgress.textContent = `${ticketsInCurrentTier} / 50 tickets towards next bonus`;
+          progressFill.style.width = "100%";
+          progressBarRole.setAttribute("aria-valuenow", 100);
+          progressBarRole.setAttribute("aria-valuemax", 100);
+          milestoneTargetText.textContent = `🏆 All ${bonusTiers.length} milestone bonuses unlocked! Superstar!`;
+          currentBatchProgress.textContent = `All milestones achieved! (${totalTickets} tickets sold)`;
+          nextBonusReward.textContent = `Max Tier Reached!`;
         }
 
         // Update Subtotals on each card
         festivals.forEach((f, idx) => {
           const subtotalEl = document.getElementById(`subtotal-${idx}`);
           if (subtotalEl) {
-            subtotalEl.textContent = formatMoney(f.tickets * 5);
+            subtotalEl.textContent = formatMoney(f.tickets * baseRate);
           }
         });
+
+        // Update Rules Guide Pills
+        if (pillBaseRate) {
+          pillBaseRate.innerHTML = `🎟️ <strong>$${baseRate.toFixed(2)}</strong> base commission per ticket sold`;
+        }
+        if (pillBonusSummary) {
+          pillBonusSummary.innerHTML = `🎁 <strong>${bonusTiers.length} customizable tiers</strong> active (next goal: ${nextTier ? nextTier.tickets + ' tix (+$' + nextTier.bonus + ')' : 'all completed'})`;
+        }
+
+        // Live update tier badges if panel is currently open
+        if (bonusConfigPanel && !bonusConfigPanel.classList.contains("hidden")) {
+          document.querySelectorAll(".tier-row").forEach((row, idx) => {
+            if (bonusTiers[idx]) {
+              const isUnlocked = totalTickets >= bonusTiers[idx].tickets;
+              const badge = row.querySelector(".tier-badge");
+              if (badge) {
+                badge.className = `tier-badge ${isUnlocked ? 'unlocked' : 'locked'}`;
+                badge.textContent = isUnlocked ? '✓ Unlocked' : `${bonusTiers[idx].tickets - totalTickets} to go`;
+              }
+            }
+          });
+        }
       }
 
       // Copy sales report for ambassador's manager or notes
       btnCopyReport.addEventListener("click", () => {
         const totalTickets = festivals.reduce((sum, f) => sum + f.tickets, 0);
-        const baseCommission = totalTickets * 5;
-        const milestoneCount = Math.floor(totalTickets / 50);
-        const milestoneBonus = milestoneCount * 150;
+        const baseCommission = totalTickets * baseRate;
+
+        let milestoneBonus = 0;
+        let unlockedTiers = [];
+        let nextTier = null;
+
+        bonusTiers.sort((a, b) => a.tickets - b.tickets);
+        bonusTiers.forEach(t => {
+          if (totalTickets >= t.tickets) {
+            milestoneBonus += t.bonus;
+            unlockedTiers.push(`${t.tickets} tix (+$${t.bonus.toLocaleString()})`);
+          } else if (!nextTier) {
+            nextTier = t;
+          }
+        });
+
         const totalEarnings = baseCommission + milestoneBonus;
-        const needed = 50 - (totalTickets % 50);
 
         let report = `🎵 Music Brand Ambassador Sales Report\n`;
         report += `────────────────────────────\n`;
         festivals.forEach(f => {
-          report += `• ${f.icon} ${f.name} (${f.location}): ${f.tickets} tickets ($${(f.tickets * 5).toLocaleString()})\n`;
+          report += `• ${f.icon} ${f.name} (${f.location}): ${f.tickets} tickets ($${(f.tickets * baseRate).toLocaleString()})\n`;
         });
         report += `────────────────────────────\n`;
         report += `Total Tickets: ${totalTickets.toLocaleString()}\n`;
-        report += `Base Commission ($5/ea): ${formatMoney(baseCommission)}\n`;
-        report += `Milestone Bonuses (${milestoneCount}x $150): ${formatMoney(milestoneBonus)}\n`;
+        report += `Base Commission ($${baseRate.toFixed(2)}/ea): ${formatMoney(baseCommission)}\n`;
+        if (unlockedTiers.length > 0) {
+          report += `Unlocked Bonuses (${unlockedTiers.length}): ${formatMoney(milestoneBonus)} [${unlockedTiers.join(", ")}]\n`;
+        } else {
+          report += `Milestone Bonuses: $0 (0 of ${bonusTiers.length} unlocked)\n`;
+        }
         report += `TOTAL EARNINGS: ${formatMoney(totalEarnings)}\n`;
-        report += `Next Bonus: ${needed} tickets away\n`;
+        if (nextTier) {
+          report += `Next Goal: ${nextTier.tickets - totalTickets} tickets away from +$${nextTier.bonus.toLocaleString()} bonus (${nextTier.tickets} ticket milestone)\n`;
+        } else {
+          report += `Next Goal: All ${bonusTiers.length} milestone bonuses unlocked! 🎉\n`;
+        }
 
         if (navigator.clipboard && navigator.clipboard.writeText) {
           navigator.clipboard.writeText(report).then(() => {
@@ -1565,6 +2193,7 @@
 
       // Initial Render
       initIconPicker();
+      renderBonusTiers();
       renderFestivalCards();
       updateCalculations();
     })();
